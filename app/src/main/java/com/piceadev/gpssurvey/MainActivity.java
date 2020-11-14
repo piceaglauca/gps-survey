@@ -1,4 +1,4 @@
-package com.piceadev.gpssurvey4;
+package com.piceadev.gpssurvey;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;

@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.piceadev.gpssurvey4.MenuFragment"
+        android:name="com.piceadev.gpssurvey.MenuFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/mapFragment"
-        android:name="com.piceadev.gpssurvey4.MapFragment"
+        android:name="com.piceadev.gpssurvey.MapFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="5"

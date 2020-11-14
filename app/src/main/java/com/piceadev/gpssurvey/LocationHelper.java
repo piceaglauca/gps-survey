@@ -1,4 +1,4 @@
-package com.piceadev.gpssurvey4;
+package com.piceadev.gpssurvey;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

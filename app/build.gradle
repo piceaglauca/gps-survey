@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.1"
 
     defaultConfig {
-        applicationId "com.piceadev.gpssurvey4"
+        applicationId "com.piceadev.gpssurvey"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1

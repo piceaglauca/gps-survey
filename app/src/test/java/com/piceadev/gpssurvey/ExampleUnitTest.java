@@ -1,4 +1,4 @@
-package com.piceadev.gpssurvey4;
+package com.piceadev.gpssurvey;
 
 import org.junit.Test;
 

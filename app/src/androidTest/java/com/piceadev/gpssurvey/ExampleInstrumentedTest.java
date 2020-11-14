@@ -1,4 +1,4 @@
-package com.piceadev.gpssurvey4;
+package com.piceadev.gpssurvey;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.piceadev.gpssurvey4", appContext.getPackageName());
+        assertEquals("com.piceadev.gpssurvey", appContext.getPackageName());
     }
 }
