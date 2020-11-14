@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -72,6 +73,30 @@ public class LocationHelper {
                 if (hasRequiredAccuracy(location)) {
                     locationList.add(location);
                     updateSatFixes(tvLog, locationList.size());
+                }
+            }
+        };
+
+        if (checkPermissions()) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            isLogging = true;
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    public void collectPointAverage (int fixes) {
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                if (locationList.size() >= fixes) {
+                    stopLogging();
+                    Toast.makeText(context, String.format(Locale.CANADA, "Finished point. Lat: %f, Long: %f, Fixes: %d", getAverageLatitude(), getAverageLongitude(), getNumberOfFixes()), Toast.LENGTH_LONG).show();
+                } else {
+                    if (hasRequiredAccuracy(location)) {
+                        locationList.add(location);
+                        Toast.makeText(context, String.format(Locale.CANADA, "Number of fixes: %d", locationList.size()), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         };
