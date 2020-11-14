@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/design_default_color_primary"
+    tools:context=".MenuFragment">
+
+    <Button
+        android:id="@+id/btnStartSurvey"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Survey" />
+
+    <Button
+        android:id="@+id/btnCollectPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Collect Point" />
+
+    <Button
+        android:id="@+id/btnCollectLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Collect Line" />
+
+    <Button
+        android:id="@+id/btnSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings" />
+</LinearLayout>
