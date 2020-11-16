@@ -99,19 +99,12 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        //mMapView = new MapView (inflater.getContext());
-
-        //return mMapView;
-
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
     @Override
     public void onActivityCreated (Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        //final Context context = this.getActivity();
 
         mMapView = (MapView) context.findViewById (R.id.map);
         final DisplayMetrics dm = context.getResources().getDisplayMetrics();
@@ -199,7 +192,6 @@ public class MapFragment extends Fragment {
          */
 
         tvGPSStatus.setText(status);
-        //Toast.makeText(context, String.format (Locale.CANADA, "bundle: %s", extras.toString()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -216,7 +208,6 @@ public class MapFragment extends Fragment {
 
         locationHelper = context.getLocationHelper ();
         locationManager = locationHelper.getLocationManager();
-        String providers = locationManager.getAllProviders().toString();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
     }
 

@@ -3,35 +3,23 @@ package com.piceadev.gpssurvey;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 
-import org.osmdroid.api.IMapController;
-import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
-    private static final String MAP_FRAGMENT_TAG = "com.piceadev.gpssurvey.MAP_FRAGMENT_TAG";
 
     private Button btnStartSurvey, btnCollectPoint, btnCollectLine, btnSettings;
-    private MapView map = null;
     private LocationHelper locationHelper;
-    private MapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,38 +32,8 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         });
 
-        //load/initialize the osmdroid configuration, this can be done
-        //Context ctx = getApplicationContext();
-        //Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
-        //setting this before the layout is inflated is a good idea
-        //it 'should' ensure that the map has a writable location for the map cache, even without permissions
-        //if no tiles are displayed, you can try overriding the cache path using Configuration.getInstance().setCachePath
-        //see also StorageUtils
-        //note, the load method also sets the HTTP User Agent to your application's package name, abusing osm's
-        //tile servers will get you banned based on this string
-
         //inflate and create the map
         setContentView(R.layout.activity_main);
-
-        /*
-        map = (MapView) findViewById(R.id.map);
-        map.setTileSource(TileSourceFactory.OpenTopo);
-
-        IMapController mapController = map.getController();
-        mapController.setZoom(9.5);
-        mapController.setCenter(new GeoPoint(50.58653, -127.08024)); // Port McNeill
-
-        MyLocationNewOverlay locationNewOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), map);
-        locationNewOverlay.enableMyLocation();
-        map.getOverlays().add(locationNewOverlay);
-        map.setMultiTouchControls(true);
-
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        if (fragmentManager.findFragmentByTag(MAP_FRAGMENT_TAG) == null) {
-            mapFragment = MapFragment.newInstance();
-            fragmentManager.beginTransaction().add(R.id.mapFragment, mapFragment, MAP_FRAGMENT_TAG).commit();
-        }
-         */
 
         locationHelper = new LocationHelper(this);
 
@@ -92,29 +50,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-    /*
-    @Override
-    public void onResume() {
-        super.onResume();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().load(this, PreferenceManager.getDefaultSharedPreferences(this));
-        map.onResume(); //needed for compass, my location overlays, v6.0.0 and up
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        //this will refresh the osmdroid configuration on resuming.
-        //if you make changes to the configuration, use
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        //Configuration.getInstance().save(this, prefs);
-        map.onPause();  //needed for compass, my location overlays, v6.0.0 and up
-    }
-
-     */
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
