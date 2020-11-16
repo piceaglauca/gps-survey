@@ -36,12 +36,17 @@ public class LocationHelper {
         this.context = context;
 
         isLogging = false;
-
         locationList = new ArrayList<>();
 
         if (!checkPermissions()) {
             requestPermissions();
         }
+
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    }
+
+    protected LocationManager getLocationManager () {
+        return locationManager;
     }
 
     private boolean checkPermissions() {
@@ -57,16 +62,10 @@ public class LocationHelper {
         );
     }
 
-    private boolean isLocationEnabled() {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        // we only want to use GPS, or else we'd add to return statement: || check for LocationManager.NETWORK_PROVIDER
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-    }
-
     @SuppressLint("MissingPermission")
     public void startLocationLogging(TextView tvSatFixes) {
         final TextView tvLog = tvSatFixes;
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        //locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
@@ -85,7 +84,7 @@ public class LocationHelper {
 
     @SuppressLint("MissingPermission")
     public void collectPointAverage (int fixes) {
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        //locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(@NonNull Location location) {
