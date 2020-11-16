@@ -3,6 +3,7 @@ package com.piceadev.gpssurvey;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnStartSurvey, btnCollectPoint, btnCollectLine, btnSettings;
     private LocationHelper locationHelper;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         locationHelper = new LocationHelper(this);
+        fragmentManager = this.getSupportFragmentManager();
 
         btnStartSurvey = findViewById(R.id.btnStartSurvey);
         btnCollectPoint = findViewById(R.id.btnCollectPoint);
@@ -84,5 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
     public LocationHelper getLocationHelper () {
         return locationHelper;
+    }
+
+    public MapFragment getMapFragment () {
+        return (MapFragment) fragmentManager.findFragmentById(R.id.mapFragment);
     }
 }

@@ -219,4 +219,8 @@ public class MapFragment extends Fragment {
         //only needed when you programmatically create the map
         mMapView.onDetach();
     }
+
+    public MapView getMapView () {
+        return mMapView;
+    }
 }
