@@ -58,8 +58,7 @@ public class MapFragment extends Fragment {
     private LocationListener locationListener;
     private LocationHelper locationHelper;
 
-    private TextView tvSats;
-    private TextView tvHDOP;
+    private TextView tvGPSStatus;
 
     public MapFragment() {
         // Required empty public constructor
@@ -150,22 +149,57 @@ public class MapFragment extends Fragment {
             }
         };
 
-        tvSats = context.findViewById(R.id.tvSats);
-        tvHDOP = context.findViewById(R.id.tvHDOP);
+        tvGPSStatus = context.findViewById(R.id.tvGPSStatus);
     }
 
     private void updateGPSStatusFields (Location location) {
         Bundle extras = location.getExtras();
+        String status = "";
 
-        if (extras.containsKey("satellites")) {
-            tvSats.setText(String.format(Locale.CANADA, "%d", extras.getInt("satellites")));
+        if (extras.containsKey("receiverModel")) {
+            // external antenna connected via mock location. Assuming Arrow 100
+            status = String.format (Locale.CANADA, "Sats: %s, Accuracy: %.1fm, HDOP: %s, SBAS Age: %s",
+                    extras.getString("satellites"),
+                    Float.parseFloat(extras.getString("hrms")),
+                    extras.getString("hdop"),
+                    extras.getString("diffAge"));
+        } else {
+            // no external antenna available
+            status = String.format(Locale.CANADA, "Sats: %d, Accuracy: %.1fm",
+                    extras.getInt("satellites"),
+                    location.getAccuracy());
         }
 
-        if (extras.containsKey("hdop")) {
-            tvSats.setText(String.format(Locale.CANADA, "%f", extras.getFloat("hdop")));
-        }
+        /*
+        // Keys array is a list of triples: key name in location.getExtras(), field type, and String.format
+        String[][] keys = {{"satellites", "int", "Sats: %d  "},
+                {"totalSatInView", "int", ""},
+                {"pdop", "float", "PDOP: %.1f  "},
+                {"hdop", "float", "HDOP: %.1f  "},
+                {"vdop", "float", ""},
+                {"diffAge", "float", "Age: %.1f  "},
+                {"diffStatus", "int", ""},
+                {"diffID", "string", ""},
+                {"3drms", "float", ""},
+                {"vrms", "float", ""},
+                {"hrms", "float", "HRMS: %.1f  "},
+                {"mslHeight", "float", ""},
+                {"undulation", "float", ""},
+                {"receiverModel", "string", ""},
+                {"mockProvider", "string", ""},
+                {"utcTime", "float", ""},
+                {"xOffset", "float", ""},
+                {"yOffset", "float", ""},
+                {"zOffset", "float", ""},
+                {"antHeight", "float", ""},
+                {"satGPS", "int", ""},
+                {"satGLO", "int", ""},
+                {"satGAL", "int", ""},
+                {"satBDS", "int", ""}};
+         */
 
-        Toast.makeText(context, String.format (Locale.CANADA, "bundle length: %s", extras.toString()), Toast.LENGTH_SHORT).show();
+        tvGPSStatus.setText(status);
+        //Toast.makeText(context, String.format (Locale.CANADA, "bundle: %s", extras.toString()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -182,6 +216,7 @@ public class MapFragment extends Fragment {
 
         locationHelper = context.getLocationHelper ();
         locationManager = locationHelper.getLocationManager();
+        String providers = locationManager.getAllProviders().toString();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
     }
 
