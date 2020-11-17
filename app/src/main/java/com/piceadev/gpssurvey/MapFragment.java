@@ -34,6 +34,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.MinimapOverlay;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.compass.InternalCompassOrientationProvider;
@@ -54,6 +55,7 @@ public class MapFragment extends Fragment {
     private MyLocationNewOverlay mLocationOverlay;
     //private MinimapOverlay mMinimapOverlay;
     private ScaleBarOverlay mScaleBarOverlay;
+    private Polyline mPolyline;
 
     private MainActivity context;
 
@@ -119,6 +121,10 @@ public class MapFragment extends Fragment {
         mLocationOverlay.setDirectionArrow(bitmap, bitmap);
         mMapView.getOverlays().add(this.mLocationOverlay);
 
+        // GPS track overlay
+        mPolyline = new Polyline(mMapView);
+        mMapView.getOverlays().add(mPolyline);
+
         // mini map will be 1/5th of the screen
         //mMinimapOverlay = new MinimapOverlay(context, mMapView.getTileRequestCompleteHandler());
         //mMinimapOverlay.setWidth(dm.widthPixels / 5);
@@ -144,6 +150,7 @@ public class MapFragment extends Fragment {
             @Override
             public void onLocationChanged(@NonNull Location location) {
                 updateGPSStatusFields (location);
+                locationHelper.addTrackVertex (location);
             }
         };
 
@@ -212,6 +219,7 @@ public class MapFragment extends Fragment {
         mMapView.onResume();
 
         locationHelper = context.getLocationHelper ();
+        locationHelper.setPolyline(mPolyline);
         locationManager = locationHelper.getLocationManager();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locationListener);
     }

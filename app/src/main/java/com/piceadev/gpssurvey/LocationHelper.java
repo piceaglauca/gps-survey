@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -30,6 +31,7 @@ public class LocationHelper {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private ArrayList<Location> locationList;
+    private Polyline polyline;
 
     private MainActivity context;
 
@@ -111,6 +113,35 @@ public class LocationHelper {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             isLogging = true;
         }
+    }
+
+    /*
+    @SuppressLint("MissingPermission")
+    public void collectLine () {
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+                if (polyline != null) {
+                    polyline.addPoint(new GeoPoint(location.getLatitude(), location.getLongitude()));
+                }
+            }
+        };
+
+        if (checkPermissions()) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,locationListener);
+            isLogging = true;
+        }
+    }
+     */
+
+    public void addTrackVertex (Location location) {
+        if (polyline != null) {
+            polyline.addPoint(new GeoPoint(location.getLatitude(), location.getLongitude()));
+        }
+    }
+
+    public void setPolyline (Polyline polyline) {
+        this.polyline = polyline;
     }
 
     @Nullable
