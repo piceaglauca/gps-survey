@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,6 +32,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.MinimapOverlay;
 import org.osmdroid.views.overlay.ScaleBarOverlay;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
@@ -112,6 +115,8 @@ public class MapFragment extends Fragment {
         // user location overlay
         mLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(context), mMapView);
         mLocationOverlay.enableMyLocation();
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.bluedot);
+        mLocationOverlay.setDirectionArrow(bitmap, bitmap);
         mMapView.getOverlays().add(this.mLocationOverlay);
 
         // mini map will be 1/5th of the screen
@@ -220,7 +225,10 @@ public class MapFragment extends Fragment {
         mMapView.onDetach();
     }
 
-    public MapView getMapView () {
-        return mMapView;
+    protected void addMarker (GeoPoint geoPoint) {
+        Marker pointOverlay = new Marker (mMapView);
+        pointOverlay.setPosition(geoPoint);
+        pointOverlay.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        mMapView.getOverlays().add(pointOverlay);
     }
 }

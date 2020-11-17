@@ -97,12 +97,7 @@ public class LocationHelper {
                     stopLogging();
                     tvCollectPoint.setText(String.format(Locale.CANADA, "Point collected. Lat: %.6f, Long: %.6f, Accuracy: %.1fm", getAverageLatitude(), getAverageLongitude(), getAverageAccuracy()));
 
-                    MapView mapView = context.getMapFragment().getMapView();
-                    Marker pointOverlay = new Marker (mapView);
-                    pointOverlay.setPosition(new GeoPoint(getAverageLatitude(), getAverageLongitude()));
-                    pointOverlay.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
-                    mapView.getOverlays().add(pointOverlay);
-
+                    context.getMapFragment().addMarker(new GeoPoint(getAverageLatitude(), getAverageLongitude()));
                 } else {
                     if (hasRequiredAccuracy(location)) {
                         locationList.add(location);
